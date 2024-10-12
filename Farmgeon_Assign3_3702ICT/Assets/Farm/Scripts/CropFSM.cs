@@ -16,17 +16,17 @@ public class CropFSM : MonoBehaviour
         Dead,
     }
     public FSMModes currentState;
-    public float speed = 10.0f;
+    public float speed = 15.0f;
     public float range = 20.0f;
     public float health = 100.0f;
     public float damage = 50.0f;
     public float mood;
-    public GameObject[] escapePoints;
-    public GameObject[] hidePoints;
     public GameObject drop;
     
     private Transform playerTransform;
     private NavMeshAgent nav;
+    private GameObject[] escapePoints;
+    private GameObject[] hidePoints;
     private Transform exit;
     private float pathTime;
 
@@ -36,6 +36,8 @@ public class CropFSM : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         exit = GameObject.FindGameObjectWithTag("Exit").transform;
         nav = GetComponent<NavMeshAgent>();
+        escapePoints = GameObject.FindGameObjectsWithTag("EscapePoint");
+        hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");
 
         if (mood > 50.0f)
         {

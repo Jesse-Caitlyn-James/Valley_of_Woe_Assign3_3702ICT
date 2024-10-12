@@ -8,6 +8,8 @@ TagManager:
   - Exit
   - Enemy
   - Farmland
+  - EscapePoint
+  - HidePoint
   layers:
   - Default
   - TransparentFX
