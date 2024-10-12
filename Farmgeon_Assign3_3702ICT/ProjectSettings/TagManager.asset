@@ -10,6 +10,7 @@ TagManager:
   - Farmland
   - EscapePoint
   - HidePoint
+  - Healer
   layers:
   - Default
   - TransparentFX

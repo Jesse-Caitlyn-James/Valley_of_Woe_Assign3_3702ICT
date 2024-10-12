@@ -29,6 +29,8 @@ public class CropFSM : MonoBehaviour
     private GameObject[] hidePoints;
     private Transform exit;
     private float pathTime;
+    private float cooldown;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,8 @@ public class CropFSM : MonoBehaviour
         {
             currentState = FSMModes.Attack;
         }
+
+        nav.speed = speed;
     }
 
     // Update is called once per frame
@@ -74,6 +78,7 @@ public class CropFSM : MonoBehaviour
         }
 
         pathTime += Time.deltaTime;
+        cooldown += Time.deltaTime;
 
         if (health < 30.0f)
         {
@@ -151,11 +156,11 @@ public class CropFSM : MonoBehaviour
         float playerDist = Vector3.Distance(transform.position, playerTransform.position);
         if (playerDist < 5.0f)
         {
-            nav.acceleration = 16;
+            nav.speed = speed * 1.5f;
         }
         else
         {
-            nav.acceleration = 8;
+            nav.speed = speed;
         }
     }
 
@@ -201,15 +206,20 @@ public class CropFSM : MonoBehaviour
 
     void Dead()
     {
-        nav.isStopped = true;
-        Destroy(gameObject, 2.0f);
-        GameObject loot = Instantiate(drop, transform);
+        if (!isDead)
+        {
+            isDead = true;
+            nav.isStopped = true;
+            Destroy(gameObject, 2.0f);
+            GameObject loot = Instantiate(drop, transform);
+        }
     }
 
     private void OnCollisionEnter(Collision other) 
     {
-        if (other.collider.tag == "Player" && currentState == FSMModes.Attack)
+        if (other.collider.tag == "Player" && currentState == FSMModes.Attack && cooldown > 1.0f)
         {
+            cooldown = 0.0f;
             other.collider.SendMessage("ApplyDamage", damage);
         }
     }
@@ -217,5 +227,15 @@ public class CropFSM : MonoBehaviour
     public void ApplyDamge(float amount)
     {
         health -= amount;
+        nav.velocity = transform.forward * -1 * 3.0f;
+    }
+
+    public void ApplyHeal(float amount)
+    {
+        health += amount;
+        if (health > 100.0f)
+        {
+            health = 100.0f;
+        }
     }
 }

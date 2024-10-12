@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MeleeFSM : MonoBehaviour
+public class RangerFSM : MonoBehaviour
 {
-  public enum FSMModes{
+      public enum FSMModes{
         None,
-        Protect,
+        Guard,
         Attack,
         Run,
         Heal,
@@ -17,12 +17,16 @@ public class MeleeFSM : MonoBehaviour
     public float speed = 15.0f;
     public float health = 150.0f;
     public float damage = 50.0f;
+    public float range = 10.0f;
+    public GameObject projectile;
     public GameObject drop;
     
     private Transform playerTransform;
     private NavMeshAgent nav;
     private GameObject[] healers;
     private GameObject currentHealer;
+    private GameObject[] guardPoints;
+    private GameObject currentGuardPoint;
     private float pathTime;
     private float cooldown;
     private bool isDead = false;
@@ -32,9 +36,11 @@ public class MeleeFSM : MonoBehaviour
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
-        currentState = FSMModes.Protect;
+        currentState = FSMModes.Guard;
         FindHealer();
         nav.speed = speed;
+        guardPoints = GameObject.FindGameObjectsWithTag("EscapePoints");
+        currentGuardPoint = guardPoints[Random.Range(0, guardPoints.Length - 1)];
     }
 
     // Update is called once per frame
@@ -44,8 +50,8 @@ public class MeleeFSM : MonoBehaviour
         {
             case FSMModes.None:
                 break;
-            case FSMModes.Protect:
-                Protect();
+            case FSMModes.Guard:
+                Guard();
                 break;
             case FSMModes.Attack:
                 Attack();
@@ -60,6 +66,8 @@ public class MeleeFSM : MonoBehaviour
                 Dead();
                 break;
         }
+
+        newGuardPos();
 
         pathTime += Time.deltaTime;
         cooldown += Time.deltaTime;
@@ -97,24 +105,21 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
-    void Protect()
+    void Guard()
     {
-        if (currentHealer == null)
+        if (!nav.hasPath | nav.remainingDistance < 2.0f)
         {
-            FindHealer();
-        }
-        Vector3 healerPos = currentHealer.transform.position;
-        float dist = Vector3.Distance(transform.position, healerPos);
-        if (!nav.hasPath | nav.remainingDistance < 2.0f | dist > 20.0f)
-        {
-            Vector3 newPos = new Vector3(healerPos.x + Random.Range(-10.0f, 10.0f), healerPos.y, healerPos.z + Random.Range(-10.0f, 10.0f));
+            Vector3 guardPos = currentGuardPoint.transform.position;
+            Vector3 newPos = new Vector3(guardPos.x + Random.Range(-10.0f, 10.0f), guardPos.y, guardPos.z + Random.Range(-10.0f, 10.0f));
             nav.SetDestination(newPos);
+            nav.stoppingDistance = 1.0f;
         }
 
         RaycastHit NPCSee;
         if (Physics.Linecast(transform.position, playerTransform.position, out NPCSee))
         {
-            if (NPCSee.collider.tag == "Player")
+            float dist = Vector3.Distance(transform.position, playerTransform.position);
+            if (NPCSee.collider.tag == "Player" & dist < 20.0f)
             {
                 currentState = FSMModes.Attack;
             }
@@ -123,28 +128,33 @@ public class MeleeFSM : MonoBehaviour
 
     void Attack()
     {
+        if (cooldown > 1.0f)
+        {
+            GameObject arrow = Instantiate(projectile, transform.position, transform.rotation);
+        }
+
         if (pathTime > 1.0f)
         {
             nav.SetDestination(playerTransform.position);
+            nav.stoppingDistance = 7.5f;
             pathTime = 0.0f;
         }
-        
-        float playerDist = Vector3.Distance(transform.position, playerTransform.position);
-        if (playerDist < 5.0f)
-        {
-            nav.speed = speed * 1.5f;
-        }
-        else
-        {
-            nav.speed = speed;
-        }
 
+        float dist = Vector3.Distance(transform.position, playerTransform.position);
+        if (dist > range)
+        {
+            nav.Move(transform.forward * -1 * speed * Time.deltaTime);
+        }
+        if (dist > 20.0f)
+        {
+            currentState = FSMModes.Guard;
+        }
         RaycastHit NPCSee;
         if (Physics.Linecast(transform.position, playerTransform.position, out NPCSee))
         {
             if (NPCSee.collider.tag != "Player")
             {
-                currentState = FSMModes.Protect;
+                currentState = FSMModes.Guard;
             }
         }
     }
@@ -181,7 +191,7 @@ public class MeleeFSM : MonoBehaviour
 
         if (health >= 100)
         {
-            currentState = FSMModes.Protect;
+            currentState = FSMModes.Guard;
         }
     }
 
@@ -196,12 +206,12 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision other) 
+    void newGuardPos()
     {
-        if (other.collider.tag == "Player" && currentState == FSMModes.Attack && cooldown > 1.0f)
+        float dist = Vector3.Distance(transform.position, playerTransform.position);
+        if (dist < 3.0f)
         {
-            cooldown = 0.0f;
-            other.collider.SendMessage("ApplyDamage", damage);
+            currentGuardPoint = guardPoints[Random.Range(0, guardPoints.Length - 1)];
         }
     }
 

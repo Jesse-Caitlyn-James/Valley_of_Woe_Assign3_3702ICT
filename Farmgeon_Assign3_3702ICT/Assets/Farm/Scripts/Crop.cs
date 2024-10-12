@@ -197,5 +197,12 @@ public class Crop : MonoBehaviour
         water = 25.0f;
         elapsedTime = 0.0f;
     }
+
+    public void Uproot()
+    {
+        isPlanted = false;
+        GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
+        // plantNPC.SendMessage("mood="+mood);
+    }
 }
 
