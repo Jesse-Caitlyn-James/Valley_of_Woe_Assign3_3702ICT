@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
                 }
 	        }
 
-            if (hit.collider.tag == "Enemy")
+            if (hit.collider.tag == "Enemy" | hit.collider.tag == "Healer")
             {
                 if (type == "water")
                 {

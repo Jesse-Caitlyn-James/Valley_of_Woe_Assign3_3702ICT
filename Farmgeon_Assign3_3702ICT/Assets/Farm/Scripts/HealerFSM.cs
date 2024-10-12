@@ -14,7 +14,6 @@ public class HealerFSM : MonoBehaviour
         Dead,
     }
     public FSMModes currentState;
-    public float speed = 15.0f;
     public float health = 50.0f;
     public float damage = 50.0f;
     public float range = 10.0f;
@@ -37,8 +36,7 @@ public class HealerFSM : MonoBehaviour
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         nav = GetComponent<NavMeshAgent>();
         currentState = FSMModes.Stalk;
-        nav.speed = speed;
-        hidePoints = GameObject.FindGameObjectsWithTag("HidePoints");
+        hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");
     }
 
     // Update is called once per frame
@@ -65,6 +63,8 @@ public class HealerFSM : MonoBehaviour
         pathTime += Time.deltaTime;
         cooldown += Time.deltaTime;
 
+        Attack();
+
         if (health < 30.0f)
         {
             currentState = FSMModes.Hide;
@@ -82,7 +82,7 @@ public class HealerFSM : MonoBehaviour
         {
             pathTime = 0.0f;
             nav.SetDestination(playerTransform.position);
-            nav.stoppingDistance = 10.0f;
+            nav.stoppingDistance = 20.0f;
         }
 
         if (convertTime > 60.0f)
@@ -106,6 +106,11 @@ public class HealerFSM : MonoBehaviour
                     break;
                 }
             }
+            if ( currentConvertTarget == null)
+            {
+                convertTime = 0.0f;
+                currentState = FSMModes.Stalk;
+            }
         }
         else
         {
@@ -124,7 +129,7 @@ public class HealerFSM : MonoBehaviour
     {
         if (currentHidePoint == null)
         {
-            hidePoints = GameObject.FindGameObjectsWithTag("HidePoints");
+            hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");
             currentHidePoint = hidePoints[Random.Range(0, hidePoints.Length - 1)];
 
             nav.SetDestination(currentHidePoint.transform.position);
@@ -147,8 +152,9 @@ public class HealerFSM : MonoBehaviour
     void Attack()
     {
         float dist = Vector3.Distance(transform.position, playerTransform.position);
-        if (cooldown > 1.0f & dist <= 5.0f)
+        if (cooldown > 1.0f & dist <= 15.0f)
         {
+            cooldown = 0.0f;
             GameObject spore = Instantiate(projectile, transform.position, transform.rotation);
         }
     }

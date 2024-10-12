@@ -16,7 +16,6 @@ public class CropFSM : MonoBehaviour
         Dead,
     }
     public FSMModes currentState;
-    public float speed = 15.0f;
     public float range = 20.0f;
     public float health = 100.0f;
     public float damage = 50.0f;
@@ -49,8 +48,6 @@ public class CropFSM : MonoBehaviour
         {
             currentState = FSMModes.Attack;
         }
-
-        nav.speed = speed;
     }
 
     // Update is called once per frame
@@ -151,16 +148,6 @@ public class CropFSM : MonoBehaviour
         {
             nav.SetDestination(playerTransform.position);
             pathTime = 0.0f;
-        }
-        
-        float playerDist = Vector3.Distance(transform.position, playerTransform.position);
-        if (playerDist < 5.0f)
-        {
-            nav.speed = speed * 1.5f;
-        }
-        else
-        {
-            nav.speed = speed;
         }
     }
 

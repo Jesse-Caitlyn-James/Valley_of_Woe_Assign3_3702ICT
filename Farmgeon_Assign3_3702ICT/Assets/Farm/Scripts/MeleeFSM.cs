@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,7 +15,6 @@ public class MeleeFSM : MonoBehaviour
         Dead,
     }
     public FSMModes currentState;
-    public float speed = 15.0f;
     public float health = 150.0f;
     public float damage = 50.0f;
     public GameObject drop;
@@ -34,12 +34,16 @@ public class MeleeFSM : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         currentState = FSMModes.Protect;
         FindHealer();
-        nav.speed = speed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (currentHealer == null)
+        {
+            FindHealer();
+        }
+        
         switch (currentState)
         {
             case FSMModes.None:
@@ -59,6 +63,12 @@ public class MeleeFSM : MonoBehaviour
             case FSMModes.Dead:
                 Dead();
                 break;
+        }
+
+        float dist = Vector3.Distance(transform.position, currentHealer.transform.position);
+        if (dist < 10.0f && currentHealer.tag != "Player")
+        {
+            ApplyHeal(10.0f * Time.deltaTime);
         }
 
         pathTime += Time.deltaTime;
@@ -128,16 +138,6 @@ public class MeleeFSM : MonoBehaviour
             nav.SetDestination(playerTransform.position);
             pathTime = 0.0f;
         }
-        
-        float playerDist = Vector3.Distance(transform.position, playerTransform.position);
-        if (playerDist < 5.0f)
-        {
-            nav.speed = speed * 1.5f;
-        }
-        else
-        {
-            nav.speed = speed;
-        }
 
         RaycastHit NPCSee;
         if (Physics.Linecast(transform.position, playerTransform.position, out NPCSee))
@@ -167,6 +167,18 @@ public class MeleeFSM : MonoBehaviour
 
     void Heal()
     {
+        if (currentHealer == null)
+        {
+            FindHealer();
+        }
+        Vector3 healerPos = currentHealer.transform.position;
+        float dist = Vector3.Distance(transform.position, healerPos);
+        if (!nav.hasPath | nav.remainingDistance < 2.0f | dist > 20.0f)
+        {
+            Vector3 newPos = new Vector3(healerPos.x + Random.Range(-10.0f, 10.0f), healerPos.y, healerPos.z + Random.Range(-10.0f, 10.0f));
+            nav.SetDestination(newPos);
+        }
+
         if (pathTime > 1.0f)
         {
             pathTime = 0.0f;
