@@ -35,7 +35,7 @@ public class RangerFSM : MonoBehaviour
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        GameManager = GameObject.FindGameObjectWithTag("GameController");
         nav = GetComponent<NavMeshAgent>();
         currentState = FSMModes.Guard;
         FindHealer();

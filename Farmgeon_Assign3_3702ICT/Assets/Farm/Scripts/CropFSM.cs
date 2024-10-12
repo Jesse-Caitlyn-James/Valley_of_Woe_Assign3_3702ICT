@@ -37,7 +37,7 @@ public class CropFSM : MonoBehaviour
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         exit = GameObject.FindGameObjectWithTag("Exit").transform;
-        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        GameManager = GameObject.FindGameObjectWithTag("GameController");
         nav = GetComponent<NavMeshAgent>();
         escapePoints = GameObject.FindGameObjectsWithTag("EscapePoint");
         hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");

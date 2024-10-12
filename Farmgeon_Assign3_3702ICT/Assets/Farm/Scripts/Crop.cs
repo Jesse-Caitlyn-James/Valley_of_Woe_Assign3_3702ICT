@@ -32,7 +32,7 @@ public class Crop : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        GameManager = GameObject.FindGameObjectWithTag("GameController");
         elapsedTime = 0.0f;
 
         canvas = transform.Find("Canvas").gameObject;

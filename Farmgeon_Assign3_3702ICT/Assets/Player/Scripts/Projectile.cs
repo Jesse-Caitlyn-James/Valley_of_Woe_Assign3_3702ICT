@@ -8,11 +8,12 @@ public class Projectile : MonoBehaviour
     public float speed = 100.0f;
     public string type;
 
-    private float life = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().bulletLife;
+    private float life;
     
     // Start is called before the first frame update
     void Start()
     {
+        life = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().bulletLife;
         Destroy(gameObject, life);
     }
 

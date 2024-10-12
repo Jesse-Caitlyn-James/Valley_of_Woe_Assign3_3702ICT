@@ -61,16 +61,14 @@ public class PlayerMovement : MonoBehaviour
 
         controller = gameObject.GetComponent<CharacterController>();
         cameraTarget = GameObject.FindGameObjectWithTag("CameraTarget").transform;
-        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        GameManager = GameObject.FindGameObjectWithTag("GameController");
 
         moveSpeed = walkSpeed;
         energy = maxEnergy;
         health = maxHealth;
         FOV = normalFOV;
         cooldown = 0.0f;
-        playerStats[0] = 1;
-        playerStats[1] = 1;
-        playerStats[2] = 1;
+        playerStats = new int[3] {1,1,1};
     }
 
     void Update()
@@ -109,10 +107,18 @@ public class PlayerMovement : MonoBehaviour
 
         elapsedTime += Time.deltaTime;
         cooldown += Time.deltaTime;
+
         // When dead sends player back to the menu
         if(health <= 0)
         {
-            
+            // Die, then move to next screen
+        }
+
+        GameObject exit = GameObject.FindGameObjectWithTag("Exit");
+        float dist = Vector3.Distance(transform.position, exit.transform.position);
+        if (dist < 3.0f)
+        {
+            // Move to next level
         }
     }
 
