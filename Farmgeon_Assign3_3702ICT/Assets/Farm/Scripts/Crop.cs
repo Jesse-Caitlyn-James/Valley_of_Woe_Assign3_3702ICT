@@ -48,12 +48,20 @@ public class Crop : MonoBehaviour
         }
         if (mood > 0)
         {
-            float playerDist = Vector3.Distance(player.position, transform.position)/10;
-            mood -= (water/100 + 1) * Time.deltaTime/2 * playerDist;
+            if (!isFertilized)
+            {
+                float playerDist = Vector3.Distance(player.position, transform.position)/10;
+                if (playerDist < 10.0f)
+                {
+                    mood -= (water/100 + 1) * Time.deltaTime;
+                }
+                else{
+                    mood -= (water/100 + 1) * Time.deltaTime/2;
+                }
+            }
         }
         if (growth < 100)
         {
-            elapsedTime = 0.0f;
             if (isFertilized)
             {
                 growth += (water + mood)/100 * Time.deltaTime * 1.5f;
@@ -75,8 +83,8 @@ public class Crop : MonoBehaviour
         }
 
         UpdateUI();
-        UpdateOverfeed();
-        elapsedTime += Time.deltaTime;
+        UpdateOvergrown();
+        UpdateOverMood();
         fertilizeTime -= Time.deltaTime;
 
         if (fertilizeTime < 0.0f & isFertilized)
@@ -94,9 +102,24 @@ public class Crop : MonoBehaviour
             growthMask.fillAmount = growth / 100;
     }
 
-    void UpdateOverfeed()
+    void UpdateOvergrown()
     {
-        if (growth > 100)
+        if (growth >= 100 & isPlanted)
+        {
+            elapsedTime += Time.deltaTime;
+            moodIndicator.enabled = true;
+            if (elapsedTime > 30.0f)
+            {
+                isPlanted = false;
+                GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
+                // plantNPC.SendMessage("mood="+mood);
+            }
+        }
+    }
+
+    void UpdateOverMood()
+    {
+        if (mood <= 0 & isPlanted)
         {
             elapsedTime += Time.deltaTime;
             moodIndicator.enabled = true;
@@ -111,9 +134,10 @@ public class Crop : MonoBehaviour
 
     public void AddWater(float amount)
     {
-        if (water < 100.0f)
+        if (water < 90.0f)
         {
             water += amount;
+            mood += amount/2;
             if (water > 100.0f)
             {
                 water = 100.0f;
@@ -171,6 +195,7 @@ public class Crop : MonoBehaviour
         growth = 0.0f;
         mood = 50.0f;
         water = 25.0f;
+        elapsedTime = 0.0f;
     }
 }
 

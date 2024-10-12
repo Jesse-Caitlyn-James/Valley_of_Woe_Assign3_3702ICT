@@ -21,8 +21,8 @@ public class CropFSM : MonoBehaviour
     public float health = 100.0f;
     public float damage = 50.0f;
     public float mood;
-    public Transform[] escapePoints;
-    public Transform[] hidePoints;
+    public GameObject[] escapePoints;
+    public GameObject[] hidePoints;
     public GameObject drop;
     
     private Transform playerTransform;
@@ -89,14 +89,14 @@ public class CropFSM : MonoBehaviour
         {
             pathTime = 0.0f;
             bool locationSet = false;
-            foreach (Transform location in escapePoints)
+            foreach (GameObject location in escapePoints)
             {
                 RaycastHit playerSee;
-                if (Physics.Linecast(location.position, playerTransform.position, out playerSee))
+                if (Physics.Linecast(location.transform.position, playerTransform.position, out playerSee))
                 {
                     if (playerSee.collider.tag != "Player")
                     {
-                        nav.SetDestination(location.position);
+                        nav.SetDestination(location.transform.position);
                         locationSet = true;
                         break;
                     }
@@ -165,14 +165,14 @@ public class CropFSM : MonoBehaviour
             if (nav.remainingDistance > 2.0f)
             {
                 bool locationSet = false;
-                foreach (Transform location in hidePoints)
+                foreach (GameObject location in hidePoints)
                 {
                     RaycastHit playerSee;
-                    if (Physics.Linecast(location.position, playerTransform.position, out playerSee))
+                    if (Physics.Linecast(location.transform.position, playerTransform.position, out playerSee))
                     {
                         if (playerSee.collider.tag != "Player")
                         {
-                            nav.SetDestination(location.position);
+                            nav.SetDestination(location.transform.position);
                             locationSet = true;
                             break;
                         }
@@ -199,9 +199,9 @@ public class CropFSM : MonoBehaviour
 
     void Dead()
     {
-        GameObject loot = Instantiate(drop, transform);
         nav.isStopped = true;
         Destroy(gameObject, 2.0f);
+        GameObject loot = Instantiate(drop, transform);
     }
 
     private void OnCollisionEnter(Collision other) 
