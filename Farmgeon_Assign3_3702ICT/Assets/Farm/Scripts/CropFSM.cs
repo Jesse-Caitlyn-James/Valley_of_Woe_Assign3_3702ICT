@@ -200,19 +200,19 @@ public class CropFSM : MonoBehaviour
     void Dead()
     {
         GameObject loot = Instantiate(drop, transform);
-        // Instantiate item drop
-        // literally jsut a floating/glowing version of self but can be picked up
-        // Destroy self
+        nav.isStopped = true;
+        Destroy(gameObject, 2.0f);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player" && currentState == FSMModes.Attack)
+    private void OnCollisionEnter(Collision other) 
+    {
+        if (other.collider.tag == "Player" && currentState == FSMModes.Attack)
         {
-            other.SendMessage("applyDamage", damage);
+            other.collider.SendMessage("ApplyDamage", damage);
         }
     }
 
-    public void takeDamage(float amount)
+    public void ApplyDamge(float amount)
     {
         health -= amount;
     }

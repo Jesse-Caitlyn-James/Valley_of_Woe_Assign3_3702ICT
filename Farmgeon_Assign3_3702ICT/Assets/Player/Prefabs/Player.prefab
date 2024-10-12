@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 539938969278428156}
   - component: {fileID: 7654596248909189665}
-  - component: {fileID: 9020912223715708758}
   - component: {fileID: 6538103174850139998}
   m_Layer: 0
   m_Name: Player
@@ -89,24 +88,14 @@ MonoBehaviour:
   energyRecoveryRate: 30
   energyRecoveryDelay: 1
   maxHealth: 100
-  healthBar: {fileID: 0}
-  energyBar: {fileID: 0}
+  inventoryDisplay: {fileID: 0}
+  seedDisplay: {fileID: 0}
+  currentItem: 1
+  currentSeed: 1
+  waterBlast: {fileID: 5745168310116278896, guid: 1a417f8660d7fd64c9d7ee722fc66bf7, type: 3}
+  earthBlast: {fileID: 1075133148896369338, guid: 1f2261be8903a374abf6e13a146613da, type: 3}
+  fireBlast: {fileID: 2089049028725160550, guid: ff1e3c15f249a4c4996734504a0de8eb, type: 3}
   health: 100
---- !u!114 &9020912223715708758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465180749459638218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8c800d6ea1d534bb6ab0d3ebf440ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  red: {fileID: 0}
-  yellow: {fileID: 0}
-  grabDistance: 2
 --- !u!143 &6538103174850139998
 CharacterController:
   m_ObjectHideFlags: 0

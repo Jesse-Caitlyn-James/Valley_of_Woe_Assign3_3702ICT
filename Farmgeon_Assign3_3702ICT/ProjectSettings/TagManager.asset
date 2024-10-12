@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CameraTarget
   - Exit
+  - Enemy
+  - Farmland
   layers:
   - Default
   - TransparentFX

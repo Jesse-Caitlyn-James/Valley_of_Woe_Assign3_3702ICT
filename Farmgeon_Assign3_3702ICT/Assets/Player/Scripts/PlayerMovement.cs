@@ -10,10 +10,15 @@ public class PlayerMovement : MonoBehaviour
 {
     public enum Inventory
     {
-        None = 1,
-        Water = 2,
-        Earth = 3,
-        Fire = 4,
+        Water = 1,
+        Earth = 2,
+        Fire = 3,
+    }
+    public enum Seeds
+    {
+        Strength = 1,
+        Magic = 2,
+        Vitality = 3,
     }
     public float walkSpeed = 5f; // Walking backwards and crouching will be half walkSpeed
     public float sprintSpeed = 10f;
@@ -27,7 +32,9 @@ public class PlayerMovement : MonoBehaviour
     public float energyRecoveryDelay = 1f;
     public float maxHealth = 100f;
     public TextMeshProUGUI inventoryDisplay;
-    public Inventory currentItem = Inventory.None;
+    public TextMeshProUGUI seedDisplay;
+    public Inventory currentItem = Inventory.Water;
+    public Seeds currentSeed = Seeds.Strength;
     public GameObject waterBlast;
     public GameObject earthBlast;
     public GameObject fireBlast;
@@ -70,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateEnergy();
         UpdateFOV();
         UpdateHotbar();
+        UpdateSeeds();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -234,8 +242,8 @@ public class PlayerMovement : MonoBehaviour
         {
             invChangeTime = 0;
             currentItem++;
-            if ((int) currentItem > 4){
-                currentItem = Inventory.None;
+            if ((int) currentItem > 3){
+                currentItem = Inventory.Water;
             }
         }
         if (Input.mouseScrollDelta.y < 0.0f)
@@ -262,18 +270,37 @@ public class PlayerMovement : MonoBehaviour
     void UseAction()
     {
         RaycastHit playerSee;
-        if (Physics.Linecast(transform.position, transform.position + transform.forward, out playerSee))
+        if (Physics.Linecast(transform.position, transform.position + transform.forward * 5, out playerSee))
         {
-            if (playerSee.collider.tag == "Farm")
+            if (playerSee.collider.tag == "Farmland")
             {
-                
+                playerSee.collider.SendMessage("Interact", (int)currentSeed);
             }
         }
     }
 
+    void UpdateSeeds()
+    {
+        if (Input.GetKeyDown("q"))
+        {
+            currentSeed++;
+            if ((int) currentSeed > 3){
+                currentSeed = Seeds.Strength;
+            }
+        }
+        if (Input.GetKeyDown("e"))
+        {
+            currentSeed--;
+            if ((int) currentSeed < 1){
+                currentSeed = Seeds.Vitality;
+            }
+        }
+        
+        seedDisplay.text = currentSeed.ToString();
+    }
+
     public void ApplyDamage()
     {
-        // Takes damage and updates UI based on Attacks
         health -= 25;
     }
 }
