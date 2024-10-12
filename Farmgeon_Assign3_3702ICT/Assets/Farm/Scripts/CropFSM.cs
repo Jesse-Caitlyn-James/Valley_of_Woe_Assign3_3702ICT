@@ -23,6 +23,7 @@ public class CropFSM : MonoBehaviour
     public GameObject drop;
     
     private Transform playerTransform;
+    private GameObject GameManager;
     private NavMeshAgent nav;
     private GameObject[] escapePoints;
     private GameObject[] hidePoints;
@@ -36,6 +37,7 @@ public class CropFSM : MonoBehaviour
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         exit = GameObject.FindGameObjectWithTag("Exit").transform;
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
         nav = GetComponent<NavMeshAgent>();
         escapePoints = GameObject.FindGameObjectsWithTag("EscapePoint");
         hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");
@@ -84,6 +86,13 @@ public class CropFSM : MonoBehaviour
         if (health <= 0.0f)
         {
             currentState = FSMModes.Dead;
+        }
+
+        float dist = Vector3.Distance(transform.position, exit.transform.position);
+        if (dist < 3.0f)
+        {
+            GameManager.SendMessage("cropEscape");
+            Destroy(gameObject);
         }
     }
 

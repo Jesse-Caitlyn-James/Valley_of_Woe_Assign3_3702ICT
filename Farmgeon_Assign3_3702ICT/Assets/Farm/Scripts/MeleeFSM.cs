@@ -23,6 +23,7 @@ public class MeleeFSM : MonoBehaviour
     private NavMeshAgent nav;
     private GameObject[] healers;
     private GameObject currentHealer;
+    private GameObject GameManager;
     private float pathTime;
     private float cooldown;
     private bool isDead = false;
@@ -31,6 +32,7 @@ public class MeleeFSM : MonoBehaviour
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
         nav = GetComponent<NavMeshAgent>();
         currentState = FSMModes.Protect;
         FindHealer();
@@ -205,6 +207,7 @@ public class MeleeFSM : MonoBehaviour
             nav.isStopped = true;
             Destroy(gameObject, 2.0f);
             GameObject loot = Instantiate(drop, transform);
+            GameManager.SendMessage("enemyKilled");
         }
     }
 

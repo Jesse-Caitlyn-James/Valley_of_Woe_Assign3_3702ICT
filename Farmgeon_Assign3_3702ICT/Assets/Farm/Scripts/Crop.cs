@@ -21,6 +21,7 @@ public class Crop : MonoBehaviour
     private float elapsedTime;
     private Transform player;
     private GameObject currentCrop;
+    private GameObject GameManager;
 
     private GameObject canvas;
     private Image waterMask;
@@ -31,6 +32,7 @@ public class Crop : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
         elapsedTime = 0.0f;
 
         canvas = transform.Find("Canvas").gameObject;
@@ -112,7 +114,7 @@ public class Crop : MonoBehaviour
             {
                 isPlanted = false;
                 GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
-                // plantNPC.SendMessage("mood="+mood);
+                plantNPC.GetComponent<CropFSM>().mood = mood;
             }
         }
     }
@@ -127,7 +129,7 @@ public class Crop : MonoBehaviour
             {
                 isPlanted = false;
                 GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
-                // plantNPC.SendMessage("mood="+mood);
+                plantNPC.GetComponent<CropFSM>().mood = mood;
             }
         }
     }
@@ -168,6 +170,7 @@ public class Crop : MonoBehaviour
             isPlanted = false;
             moodIndicator.enabled = false;
             player.SendMessage("GainStat", stat);
+            GameManager.SendMessage("collectCrop");
         }
         else if (!isPlanted)
         {

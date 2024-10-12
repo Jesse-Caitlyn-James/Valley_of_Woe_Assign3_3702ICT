@@ -7,10 +7,13 @@ public class Projectile : MonoBehaviour
 {
     public float speed = 100.0f;
     public string type;
+
+    private float life = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().bulletLife;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        Destroy(gameObject, life);
     }
 
     // Update is called once per frame
@@ -44,7 +47,7 @@ public class Projectile : MonoBehaviour
             {
                 if (type == "water")
                 {
-                    hit.collider.SendMessage("Heal", 10.0f);
+                    hit.collider.SendMessage("ApplyHeal", 10.0f);
                 }
                 else
                 {

@@ -25,6 +25,7 @@ public class HealerFSM : MonoBehaviour
     private GameObject[] hidePoints;
     private GameObject currentHidePoint;
     private GameObject currentConvertTarget;
+    private GameObject GameManager;
     private float pathTime;
     private float cooldown;
     private float convertTime;
@@ -34,6 +35,7 @@ public class HealerFSM : MonoBehaviour
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
         nav = GetComponent<NavMeshAgent>();
         currentState = FSMModes.Stalk;
         hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");
@@ -146,6 +148,7 @@ public class HealerFSM : MonoBehaviour
             explode();
             Destroy(gameObject, 2.0f);
             GameObject loot = Instantiate(drop, transform);
+            GameManager.SendMessage("enemyKilled");
         }
     }
 

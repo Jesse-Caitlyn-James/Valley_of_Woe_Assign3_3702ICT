@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
         Magic = 2,
         Vitality = 3,
     }
+    public int[] playerStats;
     public float walkSpeed = 5f; // Walking backwards and crouching will be half walkSpeed
     public float sprintSpeed = 10f;
     public float sprintFOV = 75f;
@@ -43,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform cameraTarget;
     private Vector3 movement;
     private GameObject currentProjectile;
+    private GameObject GameManager;
     private float moveSpeed;
     private float elapsedTime;
     private float cooldown;
@@ -59,12 +61,16 @@ public class PlayerMovement : MonoBehaviour
 
         controller = gameObject.GetComponent<CharacterController>();
         cameraTarget = GameObject.FindGameObjectWithTag("CameraTarget").transform;
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
 
         moveSpeed = walkSpeed;
         energy = maxEnergy;
         health = maxHealth;
         FOV = normalFOV;
         cooldown = 0.0f;
+        playerStats[0] = 1;
+        playerStats[1] = 1;
+        playerStats[2] = 1;
     }
 
     void Update()
@@ -302,5 +308,21 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyDamage()
     {
         health -= 25;
+    }
+
+    public void GainStat(string stat)
+    {
+        switch (stat)
+        {
+            case "strength":
+                playerStats[0]++;
+                break;
+            case "magic":
+                playerStats[1]++;
+                break;
+            case "vitality":
+                playerStats[2]++;
+                break;
+        }
     }
 }
