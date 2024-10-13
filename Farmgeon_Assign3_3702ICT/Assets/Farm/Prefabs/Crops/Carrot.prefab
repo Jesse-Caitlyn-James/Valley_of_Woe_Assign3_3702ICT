@@ -146,4 +146,4 @@ MonoBehaviour:
   health: 50
   damage: 50
   mood: 100
-  drop: {fileID: 0}
+  drop: {fileID: 1779845151058746091, guid: 2087fb73a57dd004091b09171a4dd1d0, type: 3}

@@ -9,10 +9,12 @@ public class Projectile : MonoBehaviour
     public string type;
 
     private float life;
+    private float damage;
     
     // Start is called before the first frame update
     void Start()
     {
+        damage = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().damage;
         life = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().bulletLife;
         Destroy(gameObject, life);
     }
@@ -48,12 +50,24 @@ public class Projectile : MonoBehaviour
             {
                 if (type == "water")
                 {
-                    hit.collider.SendMessage("ApplyHeal", 10.0f);
+                    hit.collider.SendMessage("ApplyHeal", damage/2);
                 }
                 else
                 {
-                    hit.collider.SendMessage("ApplyDamge", 25.0f);
+                    hit.collider.SendMessage("ApplyDamge", damage);
                 }
+            }
+
+            if (hit.collider.tag == "WeakSpot")
+            {
+                GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+                boss.SendMessage("ApplyDamage", damage);
+            }
+
+            if (hit.collider.tag == "StartPoint")
+            {
+                GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+                boss.SendMessage("StartFight");
             }
 
 			// Destroys the bullet

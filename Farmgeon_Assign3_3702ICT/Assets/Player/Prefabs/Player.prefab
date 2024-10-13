@@ -77,6 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6058706d838524fad6fab49bed253d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hand: {fileID: 0}
+  playerStats: 
+  healthBar: {fileID: 0}
+  energyBar: {fileID: 0}
   walkSpeed: 5
   sprintSpeed: 10
   sprintFOV: 75
@@ -84,17 +88,24 @@ MonoBehaviour:
   jumpHeight: 4
   gravity: -10
   maxEnergy: 100
+  damage: 0
   energySprintDrain: 20
   energyRecoveryRate: 30
   energyRecoveryDelay: 1
   maxHealth: 100
   inventoryDisplay: {fileID: 0}
+  inventoryDisplay1: {fileID: 0}
   seedDisplay: {fileID: 0}
   currentItem: 1
   currentSeed: 1
-  waterBlast: {fileID: 5745168310116278896, guid: 1a417f8660d7fd64c9d7ee722fc66bf7, type: 3}
-  earthBlast: {fileID: 1075133148896369338, guid: 1f2261be8903a374abf6e13a146613da, type: 3}
-  fireBlast: {fileID: 2089049028725160550, guid: ff1e3c15f249a4c4996734504a0de8eb, type: 3}
+  waterBlast: {fileID: 5745168310116278896, guid: 9934b6f5e39469f4ba837eb150bb9255, type: 3}
+  earthBlast: {fileID: 1075133148896369338, guid: afeb6a807f7087f4895d27d58903ee07, type: 3}
+  fireBlast: {fileID: 2089049028725160550, guid: e198bc22f6c264c4fb0fa9d56464b08e, type: 3}
+  fireImg: {fileID: 21300000, guid: e4a827ba41b4c994e85fcb5abb6b54e0, type: 3}
+  waterImg: {fileID: 21300000, guid: e1a6750cd667c4a46863ab5a420d7d10, type: 3}
+  fertImg: {fileID: 21300000, guid: d837f419e35226f428f7adbc0a1d520a, type: 3}
+  closed: {fileID: 21300000, guid: 60488e4c02db25e498834507f95cee02, type: 3}
+  open: {fileID: 21300000, guid: b66f9907049d94443aa76e5e437bab2e, type: 3}
   health: 100
 --- !u!143 &6538103174850139998
 CharacterController:

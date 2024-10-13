@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,12 +23,13 @@ public class GameManager : MonoBehaviour
     private int[] playerStats;
 
     // Player Upgrades
-    public float bulletLife = 5.0f;
+    public float bulletLife = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         exit = GameObject.FindGameObjectWithTag("Exit");
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -36,6 +40,12 @@ public class GameManager : MonoBehaviour
             playTime += Time.deltaTime;
             waveTime += Time.deltaTime;
         }
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        playerStats = player.GetComponent<PlayerMovement>().playerStats;
+
+        player.GetComponent<PlayerMovement>().maxHealth = 10 * playerStats[0];
+        player.GetComponent<PlayerMovement>().damage = 10 * playerStats[1];
+        player.GetComponent<PlayerMovement>().maxEnergy = 10 * playerStats[2];
 
         difficultyUpdate();
         waveUpdate();
@@ -87,10 +97,10 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("Stat2", playerStats[1]);
         PlayerPrefs.SetInt("Stat3", playerStats[2]);
 
-        PlayerPrefs.SetInt("fledCrops", fledCrops);
-        PlayerPrefs.SetInt("grownCrops", grownCrops);
-        PlayerPrefs.SetInt("enemiesKilled", enemiesKilled);
-        PlayerPrefs.SetFloat("playTime", playTime);
+        float score = playTime/10 + enemiesKilled + grownCrops - fledCrops;
+        PlayerPrefs.SetFloat("score", score);
+
+        SceneManager.LoadScene("Dungeon");
     }
 
     public void collectCrop()

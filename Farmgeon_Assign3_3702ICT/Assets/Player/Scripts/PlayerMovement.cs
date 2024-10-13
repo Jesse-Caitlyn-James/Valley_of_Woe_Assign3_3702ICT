@@ -20,7 +20,10 @@ public class PlayerMovement : MonoBehaviour
         Magic = 2,
         Vitality = 3,
     }
+    public Image hand;
     public int[] playerStats;
+    public Slider healthBar;
+    public Slider energyBar;
     public float walkSpeed = 5f; // Walking backwards and crouching will be half walkSpeed
     public float sprintSpeed = 10f;
     public float sprintFOV = 75f;
@@ -28,17 +31,25 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 4f;
     public float gravity = -10f;
     public float maxEnergy = 100f;
+    public float damage;
     public float energySprintDrain = 20f;
     public float energyRecoveryRate = 30f;
     public float energyRecoveryDelay = 1f;
     public float maxHealth = 100f;
     public TextMeshProUGUI inventoryDisplay;
+   // public string invetoryItem = water;
+    public Image inventoryDisplay1;
     public TextMeshProUGUI seedDisplay;
     public Inventory currentItem = Inventory.Water;
     public Seeds currentSeed = Seeds.Strength;
     public GameObject waterBlast;
     public GameObject earthBlast;
     public GameObject fireBlast;
+    public Sprite fireImg;
+    public Sprite waterImg;
+    public Sprite fertImg;
+    public Sprite closed;
+    public Sprite open;
 
     private CharacterController controller;
     private Transform cameraTarget;
@@ -65,7 +76,10 @@ public class PlayerMovement : MonoBehaviour
 
         moveSpeed = walkSpeed;
         energy = maxEnergy;
+        energyBar.maxValue = energy;
         health = maxHealth;
+        healthBar.value = health;
+	    healthBar.maxValue = health;
         FOV = normalFOV;
         cooldown = 0.0f;
         playerStats = new int[3] {1,1,1};
@@ -103,6 +117,9 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             UseAction();
+            hand.sprite = closed;
+        }else{
+            hand.sprite = open;
         }
 
         elapsedTime += Time.deltaTime;
@@ -240,6 +257,7 @@ public class PlayerMovement : MonoBehaviour
         {
             energy += energyRecoveryRate * Time.deltaTime;
         }
+        energyBar.value = energy;
     }
 
     void UpdateFOV()
@@ -266,8 +284,17 @@ public class PlayerMovement : MonoBehaviour
                 currentItem = Inventory.Fire;
             }
         }
+       
+        if(currentItem == Inventory.Water){
+            inventoryDisplay1.sprite = waterImg;
+        }
+        if(currentItem == Inventory.Fire){
+            inventoryDisplay1.sprite = fireImg;
+        }
+        if(currentItem == Inventory.Earth){
+            inventoryDisplay1.sprite = fertImg;
+        }
         
-        inventoryDisplay.text = currentItem.ToString();
         invChangeTime += Time.deltaTime;
     }
 
@@ -314,6 +341,7 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyDamage()
     {
         health -= 25;
+        healthBar.value = health;
     }
 
     public void GainStat(string stat)

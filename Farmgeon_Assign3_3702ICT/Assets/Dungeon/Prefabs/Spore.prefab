@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7219741271877581588
+--- !u!1 &8203464537728993882
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2783477968165984050}
-  - component: {fileID: 401748475823596129}
-  - component: {fileID: 1709082597521138962}
-  - component: {fileID: 2513286782429775124}
-  - component: {fileID: 1583736829122085849}
-  - component: {fileID: 7542235865370447467}
+  - component: {fileID: 6655364313684552841}
+  - component: {fileID: 5975110334643191852}
+  - component: {fileID: 2782363957391822841}
+  - component: {fileID: 1733582517566431760}
+  - component: {fileID: 2704465543394962714}
   m_Layer: 0
-  m_Name: Mushroom
-  m_TagString: Healer
+  m_Name: Spore
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2783477968165984050
+--- !u!4 &6655364313684552841
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7219741271877581588}
+  m_GameObject: {fileID: 8203464537728993882}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 341.70877, y: -0.0000019073486, z: 440.5}
+  m_LocalPosition: {x: 446.76523, y: 39.90409, z: 545.5705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &401748475823596129
+--- !u!33 &5975110334643191852
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7219741271877581588}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1709082597521138962
+  m_GameObject: {fileID: 8203464537728993882}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2782363957391822841
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7219741271877581588}
+  m_GameObject: {fileID: 8203464537728993882}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,13 +85,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2513286782429775124
-BoxCollider:
+--- !u!135 &1733582517566431760
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7219741271877581588}
+  m_GameObject: {fileID: 8203464537728993882}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -105,45 +104,17 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &1583736829122085849
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7219741271877581588}
-  m_Enabled: 1
-  m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &7542235865370447467
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2704465543394962714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7219741271877581588}
+  m_GameObject: {fileID: 8203464537728993882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b83e9de6bfaa674a897c5c56d080530, type: 3}
+  m_Script: {fileID: 11500000, guid: 73c127c4bcfc4884a87ce33f0b587927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
-  health: 50
-  damage: 50
-  range: 10
-  projectile: {fileID: 8203464537728993882, guid: ac41292f7135dfb4daaaebbc04373c85, type: 3}
-  drop: {fileID: 0}

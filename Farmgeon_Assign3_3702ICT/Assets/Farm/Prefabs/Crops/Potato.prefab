@@ -144,4 +144,4 @@ MonoBehaviour:
   currentState: 0
   health: 150
   damage: 50
-  drop: {fileID: 0}
+  drop: {fileID: 2695094510825054310, guid: 0c189bfffd18b484abf5909bc65e630c, type: 3}

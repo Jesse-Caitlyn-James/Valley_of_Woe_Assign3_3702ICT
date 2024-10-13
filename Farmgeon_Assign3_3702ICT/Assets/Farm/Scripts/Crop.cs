@@ -39,6 +39,7 @@ public class Crop : MonoBehaviour
         waterMask = transform.Find("Canvas").Find("Water").Find("Image").gameObject.GetComponent<Image>();
         moodMask = transform.Find("Canvas").Find("Mood").Find("Image").gameObject.GetComponent<Image>();
         growthMask = transform.Find("Canvas").Find("Growth").Find("Image").gameObject.GetComponent<Image>();
+        moodIndicator.enabled = false;
     }
 
     // Update is called once per frame

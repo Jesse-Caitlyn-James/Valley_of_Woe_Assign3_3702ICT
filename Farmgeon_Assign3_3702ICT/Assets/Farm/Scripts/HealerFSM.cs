@@ -18,7 +18,6 @@ public class HealerFSM : MonoBehaviour
     public float damage = 50.0f;
     public float range = 10.0f;
     public GameObject projectile;
-    public GameObject drop;
     
     private Transform playerTransform;
     private NavMeshAgent nav;
@@ -147,7 +146,6 @@ public class HealerFSM : MonoBehaviour
             nav.isStopped = true;
             explode();
             Destroy(gameObject, 2.0f);
-            GameObject loot = Instantiate(drop, transform);
             GameManager.SendMessage("enemyKilled");
         }
     }

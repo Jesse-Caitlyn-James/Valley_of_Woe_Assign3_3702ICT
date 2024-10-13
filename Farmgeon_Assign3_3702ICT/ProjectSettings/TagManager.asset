@@ -11,6 +11,11 @@ TagManager:
   - EscapePoint
   - HidePoint
   - Healer
+  - Shop
+  - ShopWindow
+  - SpawnPoint
+  - WeakPoint
+  - StartPoint
   layers:
   - Default
   - TransparentFX
