@@ -35,10 +35,10 @@ public class Crop : MonoBehaviour
         GameManager = GameObject.FindGameObjectWithTag("GameController");
         elapsedTime = 0.0f;
 
-        canvas = transform.Find("Canvas").gameObject;
-        waterMask = transform.Find("Canvas").Find("Water").Find("Image").gameObject.GetComponent<Image>();
-        moodMask = transform.Find("Canvas").Find("Mood").Find("Image").gameObject.GetComponent<Image>();
-        growthMask = transform.Find("Canvas").Find("Growth").Find("Image").gameObject.GetComponent<Image>();
+        canvas = transform.Find("Meters").gameObject;
+        waterMask = transform.Find("Meters").Find("Water").Find("Image").gameObject.GetComponent<Image>();
+        moodMask = transform.Find("Meters").Find("Mood").Find("Image").gameObject.GetComponent<Image>();
+        growthMask = transform.Find("Meters").Find("Growth").Find("Image").gameObject.GetComponent<Image>();
         moodIndicator.enabled = false;
     }
 
@@ -78,11 +78,11 @@ public class Crop : MonoBehaviour
         float dist = Vector3.Distance(player.position, transform.position);
         if (dist < 5.0f & isPlanted)
         {
-            canvas.GetComponent<Canvas>().enabled = true;
+            GameObject.Find("Mood").GetComponent<Canvas>().enabled = true;
         }
         else
         {
-            canvas.GetComponent<Canvas>().enabled = false;
+            GameObject.Find("Mood").GetComponent<Canvas>().enabled = false;
         }
 
         UpdateUI();

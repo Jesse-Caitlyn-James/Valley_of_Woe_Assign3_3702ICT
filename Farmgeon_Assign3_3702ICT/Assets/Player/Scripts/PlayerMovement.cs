@@ -37,9 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public float energyRecoveryDelay = 1f;
     public float maxHealth = 100f;
     public TextMeshProUGUI inventoryDisplay;
-   // public string invetoryItem = water;
     public Image inventoryDisplay1;
-    public TextMeshProUGUI seedDisplay;
     public Inventory currentItem = Inventory.Water;
     public Seeds currentSeed = Seeds.Strength;
     public GameObject waterBlast;
@@ -334,8 +332,6 @@ public class PlayerMovement : MonoBehaviour
                 currentSeed = Seeds.Vitality;
             }
         }
-        
-        seedDisplay.text = currentSeed.ToString();
     }
 
     public void ApplyDamage()
