@@ -32,6 +32,7 @@ public class Projectile : MonoBehaviour
 			// Checks if the collider was important and sends a corresponding message
         	if (hit.collider.tag == "Farmland")
 	        {
+                // Different types of bullets
                 switch (type)
                 {
                     case "water":
@@ -46,6 +47,7 @@ public class Projectile : MonoBehaviour
                 }
 	        }
 
+            // Checks what the bullet hits
             if (hit.collider.tag == "Enemy" | hit.collider.tag == "Healer")
             {
                 if (type == "water")
@@ -58,6 +60,7 @@ public class Projectile : MonoBehaviour
                 }
             }
 
+            // Boss Damage
             if (hit.collider.tag == "WeakSpot")
             {
                 GameObject boss = GameObject.FindGameObjectWithTag("Boss");

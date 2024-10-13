@@ -11,9 +11,10 @@ public class Drop : MonoBehaviour
     {
         // Rotates and moves up and down
         transform.Rotate(new Vector3(0, 1.5f, 0));
-        transform.Translate(new Vector3(0, Mathf.Sin(transform.rotation.y/100) ,0));
+        transform.Translate(new Vector3(0, Mathf.Sin(transform.rotation.y/150) ,0));
     }
 
+    // Player picks up the loot
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player")
         {

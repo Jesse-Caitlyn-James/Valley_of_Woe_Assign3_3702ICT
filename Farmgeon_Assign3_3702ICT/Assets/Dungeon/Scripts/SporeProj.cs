@@ -15,6 +15,7 @@ public class SporeProj : MonoBehaviour
     {
         // future position if bullet doesn't hit any colliders
 		Vector3 newPos = transform.position + transform.forward * 10.0f * Time.deltaTime;
+        // Rotates the bullets towards the player - Homing Bullets
         Quaternion playerRotation = Quaternion.LookRotation(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z) - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, playerRotation, Time.deltaTime * 100f); 
 

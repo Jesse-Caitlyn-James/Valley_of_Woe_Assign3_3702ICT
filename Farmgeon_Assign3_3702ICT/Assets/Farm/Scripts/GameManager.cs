@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
             playTime += Time.deltaTime;
             waveTime += Time.deltaTime;
         }
+        // Updates player stats based on crop yield
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         playerStats = player.GetComponent<PlayerMovement>().playerStats;
 
@@ -47,9 +48,11 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().damage = 25 * playerStats[1];
         player.GetComponent<PlayerMovement>().maxEnergy = 50 + 25 * playerStats[2];
 
+        // State functions
         difficultyUpdate();
         waveUpdate();
 
+        // Checks whether the player is leaving the level
         float dist = Vector3.Distance(player.transform.position, exit.transform.position);
         if (dist < 10.0f)
         {
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // increases difficulty
     void difficultyUpdate()
     {
         difficulty = 0.0f;
@@ -66,6 +70,8 @@ public class GameManager : MonoBehaviour
         difficulty /= 100;
     }
 
+    // Spawns waves every now and then
+    // The waves scale with difficulty
     void waveUpdate()
     {
         if (waveTime > 60.0f)
@@ -95,6 +101,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Handles saving playerdata and loading the next level
     public void PlayerExit()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -109,6 +116,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Dungeon");
     }
 
+    // Next functions are basic score tracking
     public void collectCrop()
     {
         if (!gameStart)

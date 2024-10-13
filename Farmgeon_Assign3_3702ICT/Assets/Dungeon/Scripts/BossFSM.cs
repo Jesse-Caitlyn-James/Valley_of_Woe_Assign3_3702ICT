@@ -61,6 +61,8 @@ public class BossFSM : MonoBehaviour
         cooldown += Time.deltaTime;
     }
 
+// First Phase - Low Missiles
+// Shoots several missiles every 10 seconds
     void Phase1()
     {
         weakSpots[0].SetActive(true);
@@ -79,6 +81,8 @@ public class BossFSM : MonoBehaviour
         }
     }
 
+// Second Phase - High Missiles
+// Shoots several missiles every 10 seconds
     void Phase2()
     {
         weakSpots[0].SetActive(true);
@@ -101,6 +105,8 @@ public class BossFSM : MonoBehaviour
         }
     }
 
+// Third Phase - High Missiles + Enemy Spawns
+// Shoots several missiles every 10 seconds and spawns enemies
     void Phase3()
     {
         weakSpots[1].SetActive(true);
@@ -146,6 +152,8 @@ public class BossFSM : MonoBehaviour
         }
     }
 
+// Fourth Phase - High Missiles + Enemy Spawn
+// Shoots several missiles every 10 seconds and spawns enemies
     void Phase4()
     {
         weakSpots[2].SetActive(true);
@@ -200,6 +208,7 @@ public class BossFSM : MonoBehaviour
         health -= amount;
     }
 
+// Begins the boss fight
     public void StartFight()
     {
         if (currentState == FSMModes.None)

@@ -42,6 +42,7 @@ public class CropFSM : MonoBehaviour
         escapePoints = GameObject.FindGameObjectsWithTag("EscapePoint");
         hidePoints = GameObject.FindGameObjectsWithTag("HidePoint");
 
+        // Determines if the crop is angry or not
         if (mood > 50.0f)
         {
             currentState = FSMModes.RunPlayer;
@@ -79,6 +80,7 @@ public class CropFSM : MonoBehaviour
         pathTime += Time.deltaTime;
         cooldown += Time.deltaTime;
 
+        // Handles health-based states
         if (health < 30.0f)
         {
             currentState = FSMModes.Hide;
@@ -88,6 +90,7 @@ public class CropFSM : MonoBehaviour
             currentState = FSMModes.Dead;
         }
 
+        // Handles the crop reaching the exit
         float dist = Vector3.Distance(transform.position, exit.transform.position);
         if (dist < 3.0f)
         {
@@ -96,6 +99,7 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // State where crop is running from the player to different locations
     void RunPlayer()
     {
         if (pathTime > 1.0f)
@@ -121,6 +125,7 @@ public class CropFSM : MonoBehaviour
             }
         }
 
+        // If breaks line of sight with player chaneg states
         float playerDist = Vector3.Distance(playerTransform.position, transform.position);
         RaycastHit hit;
         if (Physics.Linecast(transform.position, playerTransform.position, out hit))
@@ -136,6 +141,7 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // State that handles running to the exit
     void RunExit()
     {
         if (pathTime > 1.0f)
@@ -151,6 +157,7 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // State where crop is attacking player
     void Attack()
     {
         if (pathTime > 1.0f)
@@ -160,6 +167,7 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // State where crop tries to hide from player - Checks line of site
     void Hide()
     {
         if (pathTime > 1.0f)
@@ -200,6 +208,7 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // Dead State
     void Dead()
     {
         if (!isDead)
@@ -211,6 +220,7 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // Deals damage on collision to player
     private void OnCollisionEnter(Collision other) 
     {
         if (other.collider.tag == "Player" && currentState == FSMModes.Attack && cooldown > 1.0f)
@@ -220,12 +230,14 @@ public class CropFSM : MonoBehaviour
         }
     }
 
+    // Takes damage
     public void ApplyDamge(float amount)
     {
         health -= amount;
         nav.velocity = transform.forward * -1 * 3.0f;
     }
 
+    // Recieves healing
     public void ApplyHeal(float amount)
     {
         health += amount;

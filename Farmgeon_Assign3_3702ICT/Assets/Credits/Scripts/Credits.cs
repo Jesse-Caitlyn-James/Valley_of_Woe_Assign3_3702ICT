@@ -20,7 +20,7 @@ public class Credits : MonoBehaviour
         
     }
 
-    void OnBackButtonPressed()
+    public void OnBackButtonPressed()
     {
         
         SceneManager.LoadScene("Menu");

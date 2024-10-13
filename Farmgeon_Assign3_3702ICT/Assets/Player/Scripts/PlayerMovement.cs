@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -67,6 +66,11 @@ public class PlayerMovement : MonoBehaviour
     private bool crouching = false;
     private float FOV;
 
+    // 
+    // This File is partially from Assignment 2
+    // It has been repurposed to hold stats, inventories and magic/interaction
+    // 
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -88,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // State Updates
         UpdateMovement();
         UpdateMouseLook();
         UpdateSprint();
@@ -98,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateHotbar();
         UpdateSeeds();
 
+        // Switch case for projectiles (left mouse button)
         if (Input.GetMouseButtonDown(0))
         {
             switch (currentItem)
@@ -115,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
             UseAttack();
         }
 
+        // Interact UI Changes
         if (Input.GetMouseButtonDown(1))
         {
             UseAction();
@@ -292,6 +299,7 @@ public class PlayerMovement : MonoBehaviour
         invChangeTime += Time.deltaTime;
     }
 
+    // Creates the current projectile and fires it
     void UseAttack()
     {
         if (cooldown > 1.0f){
@@ -300,6 +308,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Checks if the player is interacting with farmland
     void UseAction()
     {
         RaycastHit playerSee;
@@ -312,6 +321,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Changes Inventory state and UI for plantable seeds
     void UpdateSeeds()
     {
         if (Input.GetKeyDown("q"))
@@ -341,12 +351,14 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    // Apply Damage
     public void ApplyDamage()
     {
         health -= 25;
         healthBar.value = health;
     }
 
+    // Gain Player Stats
     public void GainStat(string stat)
     {
         switch (stat)

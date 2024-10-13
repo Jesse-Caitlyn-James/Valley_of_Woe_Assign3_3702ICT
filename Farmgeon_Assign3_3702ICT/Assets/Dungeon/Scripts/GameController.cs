@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Upgrades the player
         int stat1 = PlayerPrefs.GetInt("stat1");
         int stat2 = PlayerPrefs.GetInt("stat2");
         int stat3 = PlayerPrefs.GetInt("stat3");
@@ -23,6 +24,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        // Applies player upgrades regularly
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         int[] playerStats = player.GetComponent<PlayerMovement>().playerStats;
 

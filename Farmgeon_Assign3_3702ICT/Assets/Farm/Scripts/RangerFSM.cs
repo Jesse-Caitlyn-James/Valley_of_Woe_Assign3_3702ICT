@@ -78,6 +78,7 @@ public class RangerFSM : MonoBehaviour
 
         newGuardPos();
 
+        // Heals when near healer
         float dist = Vector3.Distance(transform.position, currentHealer.transform.position);
         if (dist < 10.0f && currentHealer.tag != "Player")
         {
@@ -87,6 +88,7 @@ public class RangerFSM : MonoBehaviour
         pathTime += Time.deltaTime;
         cooldown += Time.deltaTime;
 
+        // Low health logic
         if (health < 30.0f)
         {
             currentState = FSMModes.Run;
@@ -97,6 +99,7 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+    // Locates the nearest healer and assigns it to npc
     void FindHealer()
     {
         healers = GameObject.FindGameObjectsWithTag("Healer");
@@ -120,6 +123,7 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+    // Protects their healer, attacking the player on sight
     void Guard()
     {
         if (!nav.hasPath | nav.remainingDistance < 2.0f)
@@ -141,6 +145,8 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+    // Shoots projectiles at the player when in range
+    // Will try to back away if too close
     void Attack()
     {
         if (cooldown > 3.0f)
@@ -175,6 +181,7 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+    // Runs to healer on low health
     void Run()
     {
         FindHealer();
@@ -191,6 +198,7 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+    // Heals when in range of healer, protects healer before returning to normal duty
     void Heal()
     {
         if (currentHealer == null)
@@ -235,6 +243,7 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+// Simpler boss state
     void Boss()
     {
         if (cooldown > 3.0f)
@@ -257,6 +266,7 @@ public class RangerFSM : MonoBehaviour
         }
     }
 
+// Finds a new guard position
     void newGuardPos()
     {
         float dist = Vector3.Distance(transform.position, playerTransform.position);

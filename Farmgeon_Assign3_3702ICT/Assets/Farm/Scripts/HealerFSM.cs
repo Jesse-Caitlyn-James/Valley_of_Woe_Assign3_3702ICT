@@ -70,6 +70,7 @@ public class HealerFSM : MonoBehaviour
 
         Attack();
 
+        // Handles low health states
         if (health < 30.0f)
         {
             currentState = FSMModes.Hide;
@@ -80,6 +81,8 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    // Follows the player from a distance
+    // Checks if it can convert a crop
     void Stalk()
     {
         convertTime += Time.deltaTime;
@@ -96,13 +99,14 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
-
+    // Forcefully converts a plant in a crop plot to an enemy
     void Convert()
     {
         if (currentConvertTarget == null)
         {
             foreach (GameObject farmland in GameObject.FindGameObjectsWithTag("Farmland"))
             {
+                // Finds a planted field
                 if(farmland.GetComponent<Crop>().isPlanted)
                 {
                     currentConvertTarget = farmland;
@@ -119,6 +123,7 @@ public class HealerFSM : MonoBehaviour
         }
         else
         {
+            // Once converted return to normal state
             float dist = Vector3.Distance(transform.position, currentConvertTarget.transform.position);
             if (dist < 2.0f)
             {
@@ -130,6 +135,7 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    // Sends the npc to a spot generally out of player line of sight
     void Hide()
     {
         if (currentHidePoint == null)
@@ -142,6 +148,7 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    // Dead Logic
     void Dead()
     {
         if (!isDead)
@@ -154,6 +161,7 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    // Simpler state for boss battle
     void Boss()
     {
         if (pathTime > 1.0f)
@@ -162,8 +170,10 @@ public class HealerFSM : MonoBehaviour
             nav.SetDestination(playerTransform.position);
             nav.stoppingDistance = 20.0f;
         }
+        Attack();
     }
 
+    // Shoots homing projectiles when player nearby
     void Attack()
     {
         float dist = Vector3.Distance(transform.position, playerTransform.position);
@@ -174,6 +184,7 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    // Handler for a large explosion on death
     void explode()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 15.0f);
@@ -190,12 +201,14 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    // Takes Damage
     public void ApplyDamge(float amount)
     {
         health -= amount;
         nav.velocity = transform.forward * -1 * 3.0f;
     }
 
+    // Gains Health
     public void ApplyHeal(float amount)
     {
         health += amount;

@@ -71,6 +71,7 @@ public class MeleeFSM : MonoBehaviour
                 break;
         }
 
+        // Heals if they are near a healer class
         float dist = Vector3.Distance(transform.position, currentHealer.transform.position);
         if (dist < 10.0f && currentHealer.tag != "Player")
         {
@@ -80,6 +81,7 @@ public class MeleeFSM : MonoBehaviour
         pathTime += Time.deltaTime;
         cooldown += Time.deltaTime;
 
+        // Handles low health logic
         if (health < 30.0f)
         {
             currentState = FSMModes.Run;
@@ -90,6 +92,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // Locates a the nearest healer and sets it to current healer
     void FindHealer()
     {
         healers = GameObject.FindGameObjectsWithTag("Healer");
@@ -113,6 +116,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // NPC will circle random locations around their healer, attacking the player on site
     void Protect()
     {
         if (currentHealer == null)
@@ -137,6 +141,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // Charges the player constantly
     void Attack()
     {
         if (pathTime > 1.0f)
@@ -155,6 +160,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // When low health will run to their healer
     void Run()
     {
         FindHealer();
@@ -171,6 +177,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // When near their healer, will guard until fully healed
     void Heal()
     {
         if (currentHealer == null)
@@ -203,6 +210,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // Death logic
     void Dead()
     {
         if (!isDead)
@@ -215,6 +223,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // Simpler boss logic
     void Boss()
     {
         if (pathTime > 1.0f)
@@ -224,6 +233,7 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // Melee Damage
     private void OnCollisionEnter(Collision other) 
     {
         if (other.collider.tag == "Player" && currentState == FSMModes.Attack && cooldown > 1.0f)
@@ -233,12 +243,14 @@ public class MeleeFSM : MonoBehaviour
         }
     }
 
+    // Takes Damage
     public void ApplyDamge(float amount)
     {
         health -= amount;
         nav.velocity = transform.forward * -1 * 3.0f;
     }
 
+    // Heals Health
     public void ApplyHeal(float amount)
     {
         health += amount;

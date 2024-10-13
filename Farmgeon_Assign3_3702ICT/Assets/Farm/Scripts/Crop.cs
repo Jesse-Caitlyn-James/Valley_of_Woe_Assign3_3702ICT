@@ -35,6 +35,7 @@ public class Crop : MonoBehaviour
         GameManager = GameObject.FindGameObjectWithTag("GameController");
         elapsedTime = 0.0f;
 
+        // UI Startup
         canvas = transform.Find("Meters").gameObject;
         waterMask = transform.Find("Meters").Find("Water").Find("Image").gameObject.GetComponent<Image>();
         moodMask = transform.Find("Meters").Find("Mood").Find("Image").gameObject.GetComponent<Image>();
@@ -46,6 +47,8 @@ public class Crop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Growing Logic
+        // Water + Mood down based on player actions
         if (water > 0)
         {
             water -= Time.deltaTime/2;
@@ -76,6 +79,7 @@ public class Crop : MonoBehaviour
             }
         }
 
+        // Displays the UI Popup if the player is nearby
         float dist = Vector3.Distance(player.position, transform.position);
         if (dist < 5.0f & isPlanted)
         {
@@ -86,6 +90,7 @@ public class Crop : MonoBehaviour
             canvas.SetActive(false);
         }
 
+        // Updates Object States
         UpdateUI();
         UpdateOvergrown();
         UpdateOverMood();
@@ -97,6 +102,8 @@ public class Crop : MonoBehaviour
         }
     }
 
+    // Updates the UI
+    // Rotates the display towards the player
     void UpdateUI()
     {
             Quaternion rotation = Quaternion.LookRotation(new Vector3(player.transform.position.x, 0, player.transform.position.z) - transform.position);
@@ -108,6 +115,7 @@ public class Crop : MonoBehaviour
             moodIndicator.transform.rotation = Quaternion.Slerp(moodIndicator.transform.rotation, rotation, Time.deltaTime * 10); 
     }
 
+    // Updates the state if the plant is ready to be harvested
     void UpdateOvergrown()
     {
         if (growth >= 100 & isPlanted)
@@ -122,6 +130,7 @@ public class Crop : MonoBehaviour
         }
     }
 
+    // Updates the state if the plant is too low mood
     void UpdateOverMood()
     {
         if (mood <= 0 & isPlanted)
@@ -136,6 +145,7 @@ public class Crop : MonoBehaviour
         }
     }
 
+    // Increments water stat + mood
     public void AddWater(float amount)
     {
         if (water < 90.0f)
@@ -153,20 +163,25 @@ public class Crop : MonoBehaviour
         }
     }
 
+    // Handles if the player shoots fire at the plants
     public void AddFire(float amount)
     {
         mood -= amount;
         water -= amount * 1.5f;
     }
 
+    // Applies fertiliser buff
     public void AddEarth()
     {
         isFertilized = true;
         fertilizeTime = 30.0f;
     }
 
+    // Handles the player interacting with the crop
+    // Picking/Planting
     public void Interact(int seed)
     {
+        // Collect grown plant
         if (growth >= 100.0f)
         {
             isPlanted = false;
@@ -174,6 +189,7 @@ public class Crop : MonoBehaviour
             player.SendMessage("GainStat", stat);
             GameManager.SendMessage("collectCrop");
         }
+        // Plants in empty plot
         else if (!isPlanted)
         {
             GameObject cropObject = cropList[seed-1];
@@ -193,6 +209,7 @@ public class Crop : MonoBehaviour
         }
     }
 
+    // Resets state for new plant
     public void Plant(GameObject seed)
     {
         currentCrop = seed;
@@ -203,11 +220,11 @@ public class Crop : MonoBehaviour
         elapsedTime = 0.0f;
     }
 
+    // Handles an enemy taking out a crop
     public void Uproot()
     {
         isPlanted = false;
         GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
-        // plantNPC.SendMessage("mood="+mood);
     }
 }
 
