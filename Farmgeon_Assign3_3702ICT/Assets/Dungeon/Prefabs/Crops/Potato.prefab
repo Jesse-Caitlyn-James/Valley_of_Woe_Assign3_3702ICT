@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d4fb36f7bb5c508478d5fb5d1cd1b6b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7b9d392f9bc0c44a01ff761e5aaa90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
+  currentState: 6
   health: 150
   damage: 50
-  drop: {fileID: 0}
+  drop: {fileID: 2695094510825054310, guid: 0c189bfffd18b484abf5909bc65e630c, type: 3}

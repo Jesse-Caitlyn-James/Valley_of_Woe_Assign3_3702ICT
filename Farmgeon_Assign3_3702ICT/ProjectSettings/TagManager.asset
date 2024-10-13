@@ -16,6 +16,7 @@ TagManager:
   - SpawnPoint
   - WeakPoint
   - StartPoint
+  - Boss
   layers:
   - Default
   - TransparentFX

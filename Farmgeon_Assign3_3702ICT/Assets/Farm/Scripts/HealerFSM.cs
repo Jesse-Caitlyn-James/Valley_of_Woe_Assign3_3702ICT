@@ -12,6 +12,7 @@ public class HealerFSM : MonoBehaviour
         Convert,
         Hide,
         Dead,
+        Boss,
     }
     public FSMModes currentState;
     public float health = 50.0f;
@@ -58,6 +59,9 @@ public class HealerFSM : MonoBehaviour
                 break;
             case FSMModes.Dead:
                 Dead();
+                break;
+            case FSMModes.Boss:
+                Boss();
                 break;
         }
 
@@ -150,10 +154,20 @@ public class HealerFSM : MonoBehaviour
         }
     }
 
+    void Boss()
+    {
+        if (pathTime > 1.0f)
+        {
+            pathTime = 0.0f;
+            nav.SetDestination(playerTransform.position);
+            nav.stoppingDistance = 20.0f;
+        }
+    }
+
     void Attack()
     {
         float dist = Vector3.Distance(transform.position, playerTransform.position);
-        if (cooldown > 1.0f & dist <= 15.0f)
+        if (cooldown > 5.0f & dist <= 15.0f)
         {
             cooldown = 0.0f;
             GameObject spore = Instantiate(projectile, transform.position, transform.rotation);

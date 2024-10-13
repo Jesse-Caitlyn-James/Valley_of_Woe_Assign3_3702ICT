@@ -12,6 +12,7 @@ public class RangerFSM : MonoBehaviour
         Run,
         Heal,
         Dead,
+        Boss,
     }
     public FSMModes currentState;
     public float health = 100.0f;
@@ -69,6 +70,9 @@ public class RangerFSM : MonoBehaviour
                 break;
             case FSMModes.Dead:
                 Dead();
+                break;
+            case FSMModes.Boss:
+                Boss();
                 break;
         }
 
@@ -139,7 +143,7 @@ public class RangerFSM : MonoBehaviour
 
     void Attack()
     {
-        if (cooldown > 1.0f)
+        if (cooldown > 3.0f)
         {
             cooldown = 0.0f;
             GameObject arrow = Instantiate(projectile, transform.position, transform.rotation);
@@ -228,6 +232,28 @@ public class RangerFSM : MonoBehaviour
             Destroy(gameObject, 2.0f);
             GameObject loot = Instantiate(drop, transform);
             GameManager.SendMessage("enemyKilled");
+        }
+    }
+
+    void Boss()
+    {
+        if (cooldown > 3.0f)
+        {
+            cooldown = 0.0f;
+            GameObject arrow = Instantiate(projectile, transform.position, transform.rotation);
+        }
+
+        if (pathTime > 1.0f)
+        {
+            nav.SetDestination(playerTransform.position);
+            nav.stoppingDistance = 15.0f;
+            pathTime = 0.0f;
+        }
+
+        float dist = Vector3.Distance(transform.position, playerTransform.position);
+        if (dist > range)
+        {
+            nav.Move(transform.forward * -1 * 10.0f * Time.deltaTime);
         }
     }
 

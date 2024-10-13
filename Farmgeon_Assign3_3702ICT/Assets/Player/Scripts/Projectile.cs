@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         damage = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().damage;
-        life = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().bulletLife;
+        life = 5.0f;
         Destroy(gameObject, life);
     }
 

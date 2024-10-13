@@ -13,6 +13,7 @@ public class MeleeFSM : MonoBehaviour
         Run,
         Heal,
         Dead,
+        Boss,
     }
     public FSMModes currentState;
     public float health = 150.0f;
@@ -64,6 +65,9 @@ public class MeleeFSM : MonoBehaviour
                 break;
             case FSMModes.Dead:
                 Dead();
+                break;
+            case FSMModes.Boss:
+                Boss();
                 break;
         }
 
@@ -208,6 +212,15 @@ public class MeleeFSM : MonoBehaviour
             Destroy(gameObject, 2.0f);
             GameObject loot = Instantiate(drop, transform);
             GameManager.SendMessage("enemyKilled");
+        }
+    }
+
+    void Boss()
+    {
+        if (pathTime > 1.0f)
+        {
+            nav.SetDestination(playerTransform.position);
+            pathTime = 0.0f;
         }
     }
 

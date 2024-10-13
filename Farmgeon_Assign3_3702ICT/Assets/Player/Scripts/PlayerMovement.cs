@@ -36,8 +36,8 @@ public class PlayerMovement : MonoBehaviour
     public float energyRecoveryRate = 30f;
     public float energyRecoveryDelay = 1f;
     public float maxHealth = 100f;
-    public TextMeshProUGUI inventoryDisplay;
     public Image inventoryDisplay1;
+    public Image seedDisplay;
     public Inventory currentItem = Inventory.Water;
     public Seeds currentSeed = Seeds.Strength;
     public GameObject waterBlast;
@@ -48,6 +48,9 @@ public class PlayerMovement : MonoBehaviour
     public Sprite fertImg;
     public Sprite closed;
     public Sprite open;
+    public Sprite strengthSeed;
+    public Sprite vitalitySeed;
+    public Sprite magicSeed;
 
     private CharacterController controller;
     private Transform cameraTarget;
@@ -126,14 +129,7 @@ public class PlayerMovement : MonoBehaviour
         // When dead sends player back to the menu
         if(health <= 0)
         {
-            // Die, then move to next screen
-        }
-
-        GameObject exit = GameObject.FindGameObjectWithTag("Exit");
-        float dist = Vector3.Distance(transform.position, exit.transform.position);
-        if (dist < 3.0f)
-        {
-            // Move to next level
+            SceneManager.LoadScene("Menu");
         }
     }
 
@@ -282,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
                 currentItem = Inventory.Fire;
             }
         }
-       
+        //magic image change
         if(currentItem == Inventory.Water){
             inventoryDisplay1.sprite = waterImg;
         }
@@ -332,6 +328,17 @@ public class PlayerMovement : MonoBehaviour
                 currentSeed = Seeds.Vitality;
             }
         }
+        //seed image change
+        if(currentSeed == Seeds.Vitality){
+            seedDisplay.sprite = vitalitySeed;
+        }
+        if(currentSeed == Seeds.Strength){
+            seedDisplay.sprite = strengthSeed;
+        }
+        if(currentSeed == Seeds.Magic){
+            seedDisplay.sprite = magicSeed;
+        }
+
     }
 
     public void ApplyDamage()

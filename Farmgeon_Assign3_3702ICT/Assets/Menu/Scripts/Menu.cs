@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-   
+    //objects in heigrachy
     public Button startButton;
     public Button creditButton;
+    public Button instructionButton;
     public Button exitButton;
 
     void Start()
@@ -22,22 +23,33 @@ public class Menu : MonoBehaviour
         {
             creditButton.onClick.AddListener(OnCreditButtonPressed);
         }
+        if (instructionButton != null)
+        {
+            instructionButton.onClick.AddListener(OnInstructionButtonPressed);
+        }
         if (exitButton != null)
         {
             exitButton.onClick.AddListener(OnExitButtonPressed);
         }
     }
 
-    void OnStartButtonPressed()
+    public void OnStartButtonPressed()
     {
         
         SceneManager.LoadScene("Farm");
     }
-        void OnCreditButtonPressed(){
-            SceneManager.LoadScene("Credits");
-        }
 
-        void OnExitButtonPressed()
+    public void OnInstructionButtonPressed()
+    {
+        
+        SceneManager.LoadScene("Instructions");
+    }
+
+    public void OnCreditButtonPressed(){
+        SceneManager.LoadScene("Credits");
+    }
+
+    public void OnExitButtonPressed()
     {
         
         #if UNITY_EDITOR

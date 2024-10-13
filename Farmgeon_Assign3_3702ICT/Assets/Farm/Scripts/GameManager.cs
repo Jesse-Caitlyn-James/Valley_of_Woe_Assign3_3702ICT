@@ -43,12 +43,18 @@ public class GameManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         playerStats = player.GetComponent<PlayerMovement>().playerStats;
 
-        player.GetComponent<PlayerMovement>().maxHealth = 10 * playerStats[0];
-        player.GetComponent<PlayerMovement>().damage = 10 * playerStats[1];
-        player.GetComponent<PlayerMovement>().maxEnergy = 10 * playerStats[2];
+        player.GetComponent<PlayerMovement>().maxHealth = 50 + 25 * playerStats[0];
+        player.GetComponent<PlayerMovement>().damage = 25 * playerStats[1];
+        player.GetComponent<PlayerMovement>().maxEnergy = 50 + 25 * playerStats[2];
 
         difficultyUpdate();
         waveUpdate();
+
+        float dist = Vector3.Distance(player.transform.position, exit.transform.position);
+        if (dist < 10.0f)
+        {
+            PlayerExit();
+        }
     }
 
     void difficultyUpdate()

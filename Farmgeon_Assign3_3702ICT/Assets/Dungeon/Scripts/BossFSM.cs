@@ -63,6 +63,7 @@ public class BossFSM : MonoBehaviour
 
     void Phase1()
     {
+        weakSpots[0].SetActive(true);
         if (cooldown < 10.0f)
         {
             cooldown = 0.0f;

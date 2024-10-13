@@ -14,8 +14,8 @@ public class SporeProj : MonoBehaviour
     void Update()
     {
         // future position if bullet doesn't hit any colliders
-		Vector3 newPos = transform.position + transform.forward * 50.0f * Time.deltaTime;
-        Quaternion playerRotation = Quaternion.LookRotation(new Vector3(player.transform.position.x, player.transform.position.y - 2f, player.transform.position.z) - transform.position);
+		Vector3 newPos = transform.position + transform.forward * 10.0f * Time.deltaTime;
+        Quaternion playerRotation = Quaternion.LookRotation(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z) - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, playerRotation, Time.deltaTime * 100f); 
 
 		// see if bullet hits a collider

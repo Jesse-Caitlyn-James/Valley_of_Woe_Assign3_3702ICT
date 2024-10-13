@@ -40,6 +40,7 @@ public class Crop : MonoBehaviour
         moodMask = transform.Find("Meters").Find("Mood").Find("Image").gameObject.GetComponent<Image>();
         growthMask = transform.Find("Meters").Find("Growth").Find("Image").gameObject.GetComponent<Image>();
         moodIndicator.enabled = false;
+        canvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -78,11 +79,11 @@ public class Crop : MonoBehaviour
         float dist = Vector3.Distance(player.position, transform.position);
         if (dist < 5.0f & isPlanted)
         {
-            GameObject.Find("Mood").GetComponent<Canvas>().enabled = true;
+            canvas.SetActive(true);
         }
         else
         {
-            GameObject.Find("Mood").GetComponent<Canvas>().enabled = false;
+            canvas.SetActive(false);
         }
 
         UpdateUI();
@@ -103,6 +104,8 @@ public class Crop : MonoBehaviour
             waterMask.fillAmount = water / 100;
             moodMask.fillAmount = mood / 100;
             growthMask.fillAmount = growth / 100;
+            rotation = Quaternion.LookRotation(new Vector3(player.transform.position.x, 0, player.transform.position.z) - transform.position);
+            moodIndicator.transform.rotation = Quaternion.Slerp(moodIndicator.transform.rotation, rotation, Time.deltaTime * 10); 
     }
 
     void UpdateOvergrown()
@@ -115,7 +118,6 @@ public class Crop : MonoBehaviour
             {
                 isPlanted = false;
                 GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
-                plantNPC.GetComponent<CropFSM>().mood = mood;
             }
         }
     }
@@ -130,7 +132,6 @@ public class Crop : MonoBehaviour
             {
                 isPlanted = false;
                 GameObject plantNPC = Instantiate(currentCrop, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), transform.rotation);
-                plantNPC.GetComponent<CropFSM>().mood = mood;
             }
         }
     }
